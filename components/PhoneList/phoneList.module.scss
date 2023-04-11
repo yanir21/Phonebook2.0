@@ -1,5 +1,5 @@
 .list {
-  height: 100%;
+  height: calc(100% - 8px - 2em);
   background-color: #1f1e1f;
   border-radius: 10px;
   padding: 2em;
@@ -8,6 +8,37 @@
   margin: auto;
   color: #f9f9f9;
   font-size: 1.4rem;
+  position: relative;
+  overflow: hidden;
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+    margin-right: 10px;
+    padding: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background-color: #3d3d3d;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+.table-container {
+  height: 80vh;
+  overflow: auto;
 }
 
 .logout {
@@ -17,12 +48,22 @@
   padding: 10px;
   color: antiquewhite;
   display: flex;
+  font-size: 1.2rem;
   align-items: center;
   cursor: pointer;
   transition: 0.2s;
   &:hover {
     filter: brightness(0.8);
   }
+
+  svg {
+    margin-left: 10px;
+  }
+}
+
+.no-data {
+  margin-top: 10px;
+  color: antiquewhite;
 }
 
 .top-row {
@@ -36,16 +77,10 @@
   font-size: 1.4rem;
   border-collapse: collapse;
   border-spacing: 0;
-  // height: 100%;
-  //   overflow-y: auto;
 
   th {
     text-align: start;
   }
-
-  //   tr {
-  //     border-radius: 10px;
-  //   }
 
   th,
   tr:not(:last-child) {
@@ -62,7 +97,7 @@
     display: flex;
     flex-flow: column;
   }
-  /* scrolltable rules */
+
   table {
     margin-top: 20px;
     display: inline-block;
@@ -73,28 +108,35 @@
     position: absolute;
   }
 
-  .tableContainer {
-    height: 30vh;
-  }
-
   tr {
     overflow: hidden;
     height: 50px;
     white-space: nowrap;
   }
+
+  tbody tr {
+    transition: 0.2s;
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+}
+
+.pagination-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 
 .pagination {
   display: flex;
-  background-color: #3d3d3d;
-  border: 1px solid gray;
-  border-radius: 10px;
   padding: 10px;
-  width: 30%;
-  position: absolute;
-  left: 10vw;
-  bottom: 5vh;
-  justify-content: center;
+  width: 400px;
+  justify-content: flex-end;
   align-items: center;
 }
 

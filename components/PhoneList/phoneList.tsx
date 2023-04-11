@@ -118,40 +118,55 @@ const PhoneList = () => {
           </button>
         </div>
       </div>
-      <table {...getTableProps()} className={styles.table}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
-                })}
+      <div className={styles["table-container"]}>
+        <table {...getTableProps()} className={styles.table}>
+          <colgroup>
+            <col style={{ width: "50%" }} />
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "30%" }} />
+          </colgroup>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <div className={styles.pagination}>
-        עמוד {pageIndex + 1} מתוך {pageCount}
-        <div className={styles["pagination-button"]} onClick={previousPage}>
-          <GrFormNext />
-          הקודם
-        </div>
-        <div className={styles["pagination-button"]} onClick={nextPage}>
-          הבא
-          <GrFormNext className={styles.reverse} />
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {page.length > 0 ? (
+              page.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => {
+                      return (
+                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      );
+                    })}
+                  </tr>
+                );
+              })
+            ) : (
+              <div className={styles["no-data"]}>אין תוצאות</div>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <div className={styles["pagination-container"]}>
+        <div className={styles.pagination}>
+          עמוד {pageIndex + 1} מתוך {pageCount}
+          <div className={styles["pagination-button"]} onClick={previousPage}>
+            <GrFormNext />
+            הקודם
+          </div>
+          <div className={styles["pagination-button"]} onClick={nextPage}>
+            הבא
+            <GrFormNext className={styles.reverse} />
+          </div>
         </div>
       </div>
     </div>
