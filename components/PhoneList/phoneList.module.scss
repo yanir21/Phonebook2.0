@@ -142,7 +142,6 @@
 
 .pagination-button {
   width: 80px;
-  margin-right: 10px;
   display: flex;
   align-items: center;
   transition: 0.2s;
@@ -176,7 +175,7 @@
   height: 35px;
   box-sizing: border-box;
   background-color: transparent;
-  padding-left: 1.5rem;
+  padding: 1rem;
   font-size: 1.3rem;
   color: antiquewhite;
   border-right: none;

@@ -49,6 +49,10 @@ const contacts = [
 
 const EMPTY_VALUE = "--";
 
+const Divider = () => (
+  <span style={{ margin: "0 10px", color: "#3d3d3d" }}>|</span>
+);
+
 const PhoneList = () => {
   const data = useMemo(() => contacts, []);
 
@@ -159,10 +163,12 @@ const PhoneList = () => {
       <div className={styles["pagination-container"]}>
         <div className={styles.pagination}>
           עמוד {pageIndex + 1} מתוך {pageCount}
+          <Divider />
           <div className={styles["pagination-button"]} onClick={previousPage}>
             <GrFormNext />
             הקודם
           </div>
+          <Divider />
           <div className={styles["pagination-button"]} onClick={nextPage}>
             הבא
             <GrFormNext className={styles.reverse} />
