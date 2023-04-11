@@ -1,7 +1,17 @@
 import styles from "./phoneList.module.scss";
 import { supabase } from "../../lib/initSupabase";
-import { useMemo } from "react";
-import { useTable, usePagination } from "react-table";
+import { useMemo, useState } from "react";
+import {
+  useTable,
+  usePagination,
+  useGlobalFilter,
+  useAsyncDebounce,
+} from "react-table";
+import { AiOutlineSearch } from "react-icons/ai";
+import { GrFormNext } from "react-icons/gr";
+import { BiLogOut } from "react-icons/bi";
+import "regenerator-runtime";
+
 const a = {
   name: "Eliahu Hanavi",
   number: "0534265854",
@@ -65,10 +75,7 @@ const PhoneList = () => {
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    page, // Instead of using 'rows', we'll use page,
-    // which has only the rows for the active page
-
-    // The rest of these things are super handy, too ;)
+    page,
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -77,15 +84,38 @@ const PhoneList = () => {
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize },
-  } = useTable({ columns, data }, usePagination);
+    setGlobalFilter,
+    state: { pageIndex, pageSize, globalFilter },
+  } = useTable({ columns, data }, useGlobalFilter, usePagination);
+
+  const [filter, setFilter] = useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 200);
 
   return (
     <div className={styles.list}>
       <div className={styles["top-row"]}>
-        <div>חיפוש</div>
+        <div className={styles["search-wrapper"]}>
+          <AiOutlineSearch className={styles["search-icon"]} />
+          <input
+            value={filter || ""}
+            onChange={(e) => {
+              setFilter(e.target.value);
+              onChange(e.target.value);
+            }}
+            className={styles["search-input"]}
+            placeholder="חיפוש"
+          ></input>
+        </div>
         <div>
-          <button onClick={() => supabase.auth.signOut()}>התנתק</button>
+          <button
+            className={styles.logout}
+            onClick={() => supabase.auth.signOut()}
+          >
+            <BiLogOut />
+            התנתק
+          </button>
         </div>
       </div>
       <table {...getTableProps()} className={styles.table}>
@@ -114,11 +144,14 @@ const PhoneList = () => {
         </tbody>
       </table>
       <div className={styles.pagination}>
+        עמוד {pageIndex + 1} מתוך {pageCount}
         <div className={styles["pagination-button"]} onClick={previousPage}>
-          {"< הקודם"}
+          <GrFormNext />
+          הקודם
         </div>
         <div className={styles["pagination-button"]} onClick={nextPage}>
-          {"הבא > "}
+          הבא
+          <GrFormNext className={styles.reverse} />
         </div>
       </div>
     </div>
