@@ -11,6 +11,16 @@ interface UserModalProps {
   contact?: Contact;
   isOpen?: boolean;
 }
+
+interface Section {
+  label: string;
+  field: keyof Contact;
+}
+const sections: Section[] = [
+  { label: "תיאור", field: "description" },
+  { label: "מספר", field: "number" },
+  { label: "אימייל", field: "email" },
+];
 const UserModal = (props: UserModalProps) => {
   return (
     <>
@@ -28,6 +38,14 @@ const UserModal = (props: UserModalProps) => {
               {props.contact?.name ?? "--"}
             </div>
           </div>
+          {sections.map((section) => (
+            <div className={styles.section}>
+              <div className={styles["section-title"]}>{section.label}</div>
+              <div className={styles["section-value"]}>
+                {props?.contact?.[section.field] ?? "--"}
+              </div>
+            </div>
+          ))}
         </Modal>
       </ConfigProvider>
     </>
