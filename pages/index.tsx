@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import PhoneList from "../components/PhoneList/phoneList";
 import { Auth } from "@supabase/auth-ui-react";
 import { ViewType } from "@supabase/auth-ui-shared";
-import { authLocalization } from "./consts";
+import { authLocalization } from "../consts/consts";
 import styles from "./index.module.scss";
 
 const fetcher = ([url, token]) =>
