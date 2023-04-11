@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "lib/initSupabase.js"  ],
+, "lib/initSupabase.ts"  ],
   "exclude": [
     "node_modules"
   ]

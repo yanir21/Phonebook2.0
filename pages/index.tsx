@@ -49,7 +49,10 @@ const Index = () => {
             supabaseClient={supabase}
             view={authView}
             providers={[]}
-            appearance={{ theme: ThemeSupa }}
+            appearance={{
+              theme: ThemeSupa,
+              style: { input: { color: "antiquewhite" } },
+            }}
             localization={authLocalization}
           />
         </div>

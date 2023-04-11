@@ -11,6 +11,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { GrFormNext } from "react-icons/gr";
 import { BiLogOut } from "react-icons/bi";
 import "regenerator-runtime";
+import UserModal, { Contact } from "../UserModal/userModal";
 
 const a = {
   name: "Eliahu Hanavi",
@@ -54,6 +55,7 @@ const Divider = () => (
 );
 
 const PhoneList = () => {
+  const [focusedContact, setFocusedContact] = useState<Contact>();
   const data = useMemo(() => contacts, []);
 
   const columns = useMemo(
@@ -145,7 +147,10 @@ const PhoneList = () => {
               page.map((row) => {
                 prepareRow(row);
                 return (
-                  <tr {...row.getRowProps()}>
+                  <tr
+                    {...row.getRowProps()}
+                    onClick={() => setFocusedContact(row.original as Contact)}
+                  >
                     {row.cells.map((cell) => {
                       return (
                         <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
@@ -175,6 +180,11 @@ const PhoneList = () => {
           </div>
         </div>
       </div>
+      <UserModal
+        contact={focusedContact}
+        isOpen={!!focusedContact}
+        onClose={() => setFocusedContact(undefined)}
+      />
     </div>
   );
 };

@@ -14,6 +14,7 @@ export const authLocalization = {
     forgotten_password: { link_text: "שכחת את הסיסמה?" },
     sign_up: {
       ...inputLabels,
+      button_label: "הירשם",
       link_text: "עדיין אין לך חשבון?",
     },
   },
