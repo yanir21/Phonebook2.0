@@ -12,6 +12,9 @@ import { GrFormNext } from "react-icons/gr";
 import { BiLogOut } from "react-icons/bi";
 import "regenerator-runtime";
 import UserModal, { Contact } from "../UserModal/userModal";
+import { Table } from "antd";
+import { ColumnsType } from "antd/es/table";
+import debounce from "lodash.debounce";
 
 const a = {
   name: "Eliahu Hanavi",
@@ -54,50 +57,53 @@ const Divider = () => (
   <span style={{ margin: "0 10px", color: "#3d3d3d" }}>|</span>
 );
 
+const defaultSorter = (field: keyof Contact) => {
+  return (a: Contact, b: Contact) =>
+    a[field].toString().localeCompare(b[field].toString());
+};
+
 const PhoneList = () => {
   const [focusedContact, setFocusedContact] = useState<Contact>();
-  const data = useMemo(() => contacts, []);
+  const [globalFilter, setGlobalFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const columns = useMemo(
+  const data = useMemo(
+    () =>
+      contacts.filter((contact) =>
+        Object.values(contact).some((value) => value.includes(globalFilter))
+      ),
+    [globalFilter]
+  );
+
+  const columns = useMemo<ColumnsType<Contact>>(
     () => [
       {
-        Header: "שם",
-        accessor: "name", // accessor is the "key" in the data
+        title: "שם",
+        dataIndex: "name",
+        key: "name",
+        sorter: { compare: defaultSorter("name") },
+        showSorterTooltip: false,
+        // width: "30%",
       },
       {
-        Header: "טלפון",
-        accessor: "number",
+        title: "טלפון",
+        dataIndex: "number",
+        key: "number",
+        sorter: { compare: defaultSorter("name") },
+        showSorterTooltip: false,
       },
       {
-        Header: "אימייל",
-        accessor: "email",
+        title: "אימייל",
+        dataIndex: "email",
+        key: "email",
+        sorter: { compare: defaultSorter("email") },
+        showSorterTooltip: false,
       },
     ],
     []
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    page,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    setGlobalFilter,
-    state: { pageIndex, pageSize, globalFilter },
-  } = useTable({ columns, data }, useGlobalFilter, usePagination);
-
-  const [filter, setFilter] = useState(globalFilter);
-  const onChange = useAsyncDebounce((value) => {
-    setGlobalFilter(value || undefined);
-  }, 200);
+  const [filterInput, setFilterInput] = useState("");
 
   return (
     <div className={styles.list}>
@@ -105,10 +111,13 @@ const PhoneList = () => {
         <div className={styles["search-wrapper"]}>
           <AiOutlineSearch className={styles["search-icon"]} />
           <input
-            value={filter || ""}
+            value={filterInput || ""}
             onChange={(e) => {
-              setFilter(e.target.value);
-              onChange(e.target.value);
+              setFilterInput(e.target.value);
+              debounce(() => {
+                setGlobalFilter(e.target.value);
+                setCurrentPage(1);
+              }, 300)();
             }}
             className={styles["search-input"]}
             placeholder="חיפוש"
@@ -125,60 +134,26 @@ const PhoneList = () => {
         </div>
       </div>
       <div className={styles["table-container"]}>
-        <table {...getTableProps()} className={styles.table}>
-          <colgroup>
-            <col style={{ width: "50%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "30%" }} />
-          </colgroup>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {page.length > 0 ? (
-              page.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr
-                    {...row.getRowProps()}
-                    onClick={() => setFocusedContact(row.original as Contact)}
-                  >
-                    {row.cells.map((cell) => {
-                      return (
-                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                      );
-                    })}
-                  </tr>
-                );
-              })
-            ) : (
-              <div className={styles["no-data"]}>אין תוצאות</div>
-            )}
-          </tbody>
-        </table>
-      </div>
-      <div className={styles["pagination-container"]}>
-        <div className={styles.pagination}>
-          עמוד {pageIndex + 1} מתוך {pageCount}
-          <Divider />
-          <div className={styles["pagination-button"]} onClick={previousPage}>
-            <GrFormNext />
-            הקודם
-          </div>
-          <Divider />
-          <div className={styles["pagination-button"]} onClick={nextPage}>
-            הבא
-            <GrFormNext className={styles.reverse} />
-          </div>
-        </div>
+        <Table
+          dataSource={data}
+          columns={columns}
+          pagination={{
+            className: styles.pagination,
+            current: currentPage,
+            onChange: (pageNumber: number) => setCurrentPage(pageNumber),
+            showSizeChanger: true,
+            pageSizeOptions: [5, 10, 15, 20],
+          }}
+          rowClassName={styles.row}
+          rowKey={"_id"}
+          className={styles.table}
+          tableLayout="fixed"
+          onRow={(row) => ({
+            onClick: (event) => {
+              setFocusedContact(row as Contact);
+            },
+          })}
+        />
       </div>
       <UserModal
         contact={focusedContact}

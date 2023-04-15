@@ -6,6 +6,7 @@ import { Auth } from "@supabase/auth-ui-react";
 import { ViewType } from "@supabase/auth-ui-shared";
 import { authLocalization } from "../consts/consts";
 import styles from "./index.module.scss";
+import Navbar from "../components/Navbar/navbar";
 
 const fetcher = ([url, token]) =>
   fetch(url, {
@@ -51,7 +52,7 @@ const Index = () => {
             providers={[]}
             appearance={{
               theme: ThemeSupa,
-              style: { input: { color: "antiquewhite" } },
+              style: { button: { backgroundColor: "#2c97ff" } },
             }}
             localization={authLocalization}
           />

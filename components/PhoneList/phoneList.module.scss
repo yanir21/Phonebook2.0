@@ -1,12 +1,10 @@
+@import "consts.scss";
+
 .list {
-  height: calc(100% - 8px - 2em);
-  background-color: #1f1e1f;
-  border-radius: 10px;
   padding: 2em;
   margin-top: 90px;
   width: 90%;
   margin: auto;
-  color: #f9f9f9;
   font-size: 1.4rem;
   position: relative;
   overflow: hidden;
@@ -37,12 +35,15 @@
 }
 
 .table-container {
-  height: 80vh;
+  margin-top: 10px;
   overflow: auto;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  background-color: white;
 }
 
 .logout {
-  background-color: #3d3d3d;
+  background-color: $primary;
   border-radius: 5px;
   border: none;
   padding: 10px;
@@ -57,7 +58,7 @@
   }
 
   svg {
-    margin-left: 10px;
+    margin-left: 5px;
   }
 }
 
@@ -71,57 +72,66 @@
   justify-content: space-between;
 }
 
-.table {
-  width: 100%;
-  text-align: start;
-  font-size: 1.4rem;
-  border-collapse: collapse;
-  border-spacing: 0;
+// .table {
+//   width: 100%;
+//   text-align: start;
+//   font-size: 1.4rem;
+//   border-collapse: collapse;
+//   border-spacing: 0;
 
-  th {
-    text-align: start;
-  }
+//   th {
+//     text-align: start;
+//     background-color: #f5f5f5;
+//   }
 
-  th,
-  tr:not(:last-child) {
-    border-bottom: 1px solid #3d3d3d;
-  }
+//   th,
+//   tr:not(:last-child) {
+//     border-bottom: 1px solid #e6e6e6;
+//   }
 
-  tr:nth-child(even) {
-    background-color: #3d3d3d;
-  }
+//   tr:nth-child(even) {
+//     background-color: white;
+//   }
+//   tr:nth-child(odd) {
+//     background-color: $offWhite;
+//   }
 
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    display: flex;
-    flex-flow: column;
-  }
+//   table {
+//     border-collapse: collapse;
+//     width: 100%;
+//     display: flex;
+//     flex-flow: column;
+//   }
 
-  table {
-    margin-top: 20px;
-    display: inline-block;
-    overflow: auto;
-  }
-  th div {
-    margin-top: -20px;
-    position: absolute;
-  }
+//   table {
+//     margin-top: 20px;
+//     display: inline-block;
+//     overflow: auto;
+//   }
+//   th div {
+//     margin-top: -20px;
+//     position: absolute;
+//   }
 
-  tr {
-    overflow: hidden;
-    height: 50px;
-    white-space: nowrap;
-  }
+//   td,
+//   th {
+//     padding: 0 1em;
+//   }
 
-  tbody tr {
-    transition: 0.2s;
-    &:hover {
-      filter: brightness(0.8);
-    }
-    cursor: pointer;
-  }
-}
+//   tr {
+//     overflow: hidden;
+//     height: 50px;
+//     white-space: nowrap;
+//   }
+
+//   tbody tr {
+//     transition: 0.2s;
+//     &:hover {
+//       filter: brightness(0.8);
+//     }
+//     cursor: pointer;
+//   }
+// }
 
 .pagination-container {
   width: 100%;
@@ -134,11 +144,9 @@
 }
 
 .pagination {
-  display: flex;
-  padding: 10px;
-  width: 400px;
-  justify-content: flex-end;
-  align-items: center;
+  svg {
+    transform: rotateY(180deg);
+  }
 }
 
 .pagination-button {
@@ -153,7 +161,7 @@
   }
 
   svg > * {
-    stroke: antiquewhite;
+    stroke: $primary;
   }
 }
 
@@ -178,10 +186,24 @@
   background-color: transparent;
   padding: 1rem;
   font-size: 1.3rem;
-  color: antiquewhite;
-  border-right: none;
+  border: none;
+  border-bottom: 1px solid $secondary;
+  outline: none;
 }
 
 .reverse {
   transform: rotate(180deg);
+}
+
+.row {
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    filter: brightness(0.95);
+  }
+}
+
+.row:nth-child(even) {
+  background-color: #fafafa;
 }

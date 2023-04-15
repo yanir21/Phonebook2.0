@@ -1,3 +1,5 @@
+@import "./consts.scss";
+
 .top-row {
   display: flex;
   align-items: center;
@@ -23,4 +25,48 @@
 }
 .section-value {
   font-size: 1.4rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.edit-button,
+.delete-button {
+  transition: 0.2s;
+  margin-left: 20px;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(0.8);
+  }
+}
+
+.edit-button {
+  color: $primary;
+}
+
+.delete-button {
+  color: #ff4d4f;
+}
+
+.edit-input {
+  height: 35px;
+  box-sizing: border-box;
+  background-color: transparent;
+  font-size: 1.3rem;
+  border: none;
+  border-bottom: 1px solid $secondary;
+  outline: none;
+}
+
+.delete-modal {
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.delete-mode-buttons {
+  margin: auto;
 }
