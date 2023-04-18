@@ -1,14 +1,7 @@
 import styles from "./phoneList.module.scss";
 import { supabase } from "../../lib/initSupabase";
 import { useMemo, useState } from "react";
-import {
-  useTable,
-  usePagination,
-  useGlobalFilter,
-  useAsyncDebounce,
-} from "react-table";
 import { AiOutlineSearch } from "react-icons/ai";
-import { GrFormNext } from "react-icons/gr";
 import { BiLogOut } from "react-icons/bi";
 import "regenerator-runtime";
 import UserModal, { Contact } from "../UserModal/userModal";
