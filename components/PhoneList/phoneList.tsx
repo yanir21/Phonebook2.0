@@ -5,10 +5,9 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import { BsPersonFillAdd } from "react-icons/bs";
 import EditContactModal, { Contact } from "../UserModal/editContactModal";
-import { FloatButton, Table, notification } from "antd";
+import { FloatButton, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import debounce from "lodash.debounce";
-import { defaultSorter } from "../../utils/defaultSorter";
 import { getContacts } from "../../services/contact";
 import { tableHeaders } from "./consts";
 import CreateContactModal from "../UserModal/createContactModal";
@@ -46,7 +45,7 @@ const PhoneList = () => {
     () =>
       contacts.filter((contact) =>
         Object.values(contact).some((value) =>
-          value.toString().includes(globalFilter)
+          value?.toString().includes(globalFilter)
         )
       ),
     [globalFilter, contacts]

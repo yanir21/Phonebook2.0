@@ -170,7 +170,9 @@ const EditContactModal = (props: UserModalProps) => {
                   </div>
                 ) : (
                   <div className={styles["section-value"]}>
-                    {props?.contact?.[section.field] ?? "--"}
+                    {props?.contact?.[section.field]
+                      ? props?.contact?.[section.field]
+                      : "--"}
                   </div>
                 )}
               </div>
