@@ -70,3 +70,20 @@
 .delete-mode-buttons {
   margin: auto;
 }
+
+.create-footer {
+  justify-content: flex-end;
+}
+
+.create-button {
+  background-color: $primary;
+  color: white;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: 0.2s;
+  &:hover {
+    filter: brightness(0.8);
+  }
+}

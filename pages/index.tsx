@@ -25,14 +25,6 @@ const Index = () => {
         if (event === "PASSWORD_RECOVERY") setAuthView("update_password");
         if (event === "USER_UPDATED")
           setTimeout(() => setAuthView("sign_in"), 1000);
-        // Send session to /api/auth route to set the auth cookie.
-        // NOTE: this is only needed if you're doing SSR (getServerSideProps)!
-        fetch("/api/auth", {
-          method: "POST",
-          headers: new Headers({ "Content-Type": "application/json" }),
-          credentials: "same-origin",
-          body: JSON.stringify({ event, session }),
-        }).then((res) => res.json());
       }
     );
 

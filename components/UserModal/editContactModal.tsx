@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, notification } from "antd";
 import getContacts from "../../pages/api/getContacts";
 import { IoIosContact } from "react-icons/io";
-import styles from "./userModal.module.scss";
+import styles from "./contactModal.module.scss";
+import { deleteContact, editContact } from "../../services/contact";
 
 export type Contact = Awaited<ReturnType<typeof getContacts>>[0];
 interface UserModalProps {
   onClose: () => void;
+  reloadContacts: () => void;
   contact?: Contact;
   isOpen?: boolean;
 }
@@ -20,27 +22,35 @@ const sections: Section[] = [
   { label: "מספר", field: "number" },
   { label: "אימייל", field: "email" },
 ];
-const UserModal = (props: UserModalProps) => {
+const EditContactModal = (props: UserModalProps) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editDetails, setEditDetails] = useState<Contact>();
   const [deleteMode, setDeleteMode] = useState<boolean>(false);
+  const [api, contextHolder] = notification.useNotification();
+
+  const promptError = () => {
+    api["error"]({
+      placement: "bottomRight",
+      message: "!אופס",
+      description: "הפעולה נכשלה, נסה שוב מאוחר יותר",
+    });
+  };
 
   const ModalFooter = () => (
     <div className={styles.footer}>
       {deleteMode ? (
         <div className={styles["delete-mode-buttons"]}>
           <Button onClick={setDeleteMode.bind(this, false)}>אני מתחרט</Button>
-          <Button danger>כן, תמחק</Button>
+          <Button danger onClick={submitAction}>
+            כן, תמחק
+          </Button>
         </div>
       ) : (
         <>
           <span className={styles["left-buttons"]}>
             {edit ? (
               <>
-                <span
-                  className={styles["edit-button"]}
-                  onClick={setEdit.bind(this, !edit)}
-                >
+                <span className={styles["edit-button"]} onClick={submitAction}>
                   אישור
                 </span>
                 <span
@@ -85,7 +95,20 @@ const UserModal = (props: UserModalProps) => {
 
   useEffect(() => setEditDetails(edit ? props.contact : undefined), [edit]);
 
-  const handleEdit = (field: keyof Contact, newValue: string) => {
+  const submitAction = async () => {
+    try {
+      deleteMode
+        ? await deleteContact(props.contact.id)
+        : await editContact(editDetails);
+      props.reloadContacts();
+    } catch (err) {
+      promptError();
+    } finally {
+      closeAndClear();
+    }
+  };
+
+  const handleFieldEdit = (field: keyof Contact, newValue: string) => {
     setEditDetails((editDetails) => ({ ...editDetails, [field]: newValue }));
   };
 
@@ -102,6 +125,7 @@ const UserModal = (props: UserModalProps) => {
 
   return (
     <>
+      {contextHolder}
       <Modal
         title="פרטי איש קשר"
         open={props.isOpen}
@@ -122,7 +146,9 @@ const UserModal = (props: UserModalProps) => {
                   <input
                     className={styles["edit-input"]}
                     value={editDetails?.name ?? ""}
-                    onChange={(event) => handleEdit("name", event.target.value)}
+                    onChange={(event) =>
+                      handleFieldEdit("name", event.target.value)
+                    }
                   />
                 ) : (
                   props.contact?.name ?? "--"
@@ -138,7 +164,7 @@ const UserModal = (props: UserModalProps) => {
                       className={styles["edit-input"]}
                       value={editDetails?.[section.field] ?? ""}
                       onChange={(event) =>
-                        handleEdit(section.field, event.target.value)
+                        handleFieldEdit(section.field, event.target.value)
                       }
                     />
                   </div>
@@ -156,4 +182,4 @@ const UserModal = (props: UserModalProps) => {
   );
 };
 
-export default UserModal;
+export default EditContactModal;
