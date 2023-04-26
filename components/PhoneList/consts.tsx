@@ -9,6 +9,7 @@ export const tableHeaders: ColumnsType<Contact> = [
     key: "name",
     sorter: { compare: defaultSorter("name") },
     showSorterTooltip: false,
+    responsive: ["sm"],
   },
   {
     title: "טלפון",
@@ -16,6 +17,7 @@ export const tableHeaders: ColumnsType<Contact> = [
     key: "number",
     sorter: { compare: defaultSorter("name") },
     showSorterTooltip: false,
+    responsive: ["sm"],
   },
   {
     title: "אימייל",
@@ -23,6 +25,7 @@ export const tableHeaders: ColumnsType<Contact> = [
     key: "email",
     sorter: { compare: defaultSorter("email") },
     showSorterTooltip: false,
+    responsive: ["sm"],
   },
   {
     title: "נוצר ב",
@@ -36,5 +39,12 @@ export const tableHeaders: ColumnsType<Contact> = [
         .toLocaleTimeString()
         .slice(0, 5)}`;
     },
+
+    responsive: ["sm"],
+  },
+  {
+    title: "Contacts",
+    render: (_, record: Contact) => record.name,
+    responsive: ["xs"],
   },
 ];

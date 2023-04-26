@@ -11,6 +11,7 @@ import debounce from "lodash.debounce";
 import { getContacts } from "../../services/contact";
 import { tableHeaders } from "./consts";
 import CreateContactModal from "../UserModal/createContactModal";
+import useMediaQuery from "use-media-antd-query";
 
 const EMPTY_VALUE = "--";
 
@@ -22,6 +23,7 @@ const PhoneList = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isCreatingContact, setIsCreatingContact] = useState<boolean>(false);
   const [reloadFlag, setReloadFlag] = useState<boolean>(false);
+  const mediaQuery = useMediaQuery();
 
   const loadContacts = async () => {
     try {
@@ -63,6 +65,8 @@ const PhoneList = () => {
 
   const [filterInput, setFilterInput] = useState("");
 
+  const isMobile = useMemo<boolean>(() => mediaQuery === "xs", [mediaQuery]);
+
   return (
     <div className={styles.list}>
       <div className={styles["top-row"]}>
@@ -81,15 +85,17 @@ const PhoneList = () => {
             placeholder="חיפוש"
           ></input>
         </div>
-        <div>
-          <button
-            className={styles.logout}
-            onClick={() => supabase.auth.signOut()}
-          >
-            <BiLogOut />
-            התנתק
-          </button>
-        </div>
+        {!isMobile && (
+          <div>
+            <button
+              className={styles.logout}
+              onClick={() => supabase.auth.signOut()}
+            >
+              <BiLogOut />
+              התנתק
+            </button>
+          </div>
+        )}
       </div>
       <div className={styles["table-container"]}>
         <Table
@@ -107,6 +113,7 @@ const PhoneList = () => {
           rowKey={"_id"}
           className={styles.table}
           tableLayout="fixed"
+          showHeader={!isMobile}
           onRow={(row) => ({
             onClick: (event) => {
               setFocusedContact(row as Contact);

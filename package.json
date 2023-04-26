@@ -17,7 +17,8 @@
     "react-icons": "^4.8.0",
     "regenerator-runtime": "^0.13.11",
     "sass": "^1.61.0",
-    "swr": "^2.0.0"
+    "swr": "^2.0.0",
+    "use-media-antd-query": "^1.1.0"
   },
   "devDependencies": {
     "@types/node": "^18.15.11",
