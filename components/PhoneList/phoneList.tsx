@@ -13,8 +13,6 @@ import { tableHeaders } from "./consts";
 import CreateContactModal from "../UserModal/createContactModal";
 import useMediaQuery from "use-media-antd-query";
 
-const EMPTY_VALUE = "--";
-
 const PhoneList = () => {
   const [focusedContact, setFocusedContact] = useState<Contact>();
   const [globalFilter, setGlobalFilter] = useState("");
@@ -106,8 +104,9 @@ const PhoneList = () => {
             current: currentPage,
             onChange: (pageNumber: number) => setCurrentPage(pageNumber),
             showSizeChanger: true,
-            pageSizeOptions: [5, 10, 15, 20],
+            pageSizeOptions: [6, 8, 10, 20],
             hideOnSinglePage: true,
+            defaultPageSize: 6,
           }}
           rowClassName={styles.row}
           rowKey={"_id"}
