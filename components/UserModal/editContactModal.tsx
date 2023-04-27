@@ -89,6 +89,7 @@ const EditContactModal = (props: UserModalProps) => {
 
   const closeAndClear = () => {
     setEdit(false);
+    setDeleteMode(false);
     setEditDetails(undefined);
     props.onClose();
   };
